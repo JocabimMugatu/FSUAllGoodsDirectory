@@ -6,7 +6,7 @@ This repository models a comprehensive catalogue of Florida State University mer
 
 - **TypeScript models** for categories, size options, pricing metadata, and merchandise items (`src/types.ts`).
 - **Deterministic catalogue generator** that can rebuild the data set from a fixed seed (`src/generator.ts`).
-- **Pre-generated snapshot** containing 518 realistic FSU-branded products (`src/data/catalog.ts`).
+- **Pre-generated snapshot** containing 506 realistic FSU-branded products (`src/data/catalog.ts`).
 - **Helper utilities** to retrieve catalogue data and apply common filters (`src/helpers.ts`).
 - **Aggregate exports** for easy consumption (`src/index.ts`).
 
@@ -26,12 +26,12 @@ Refer to the source file for complete property documentation and inline comments
 
 ## Generated Catalogue
 
-`src/generator.ts` defines 52 product templates spanning every required category. Each template specifies:
+`src/generator.ts` defines 30 product templates spanning every required category. Each template specifies:
 
 - Base merchandising copy and material options.
 - Supported size group (e.g. adult unisex apparel, headwear, tailgate gear).
 - Colour families and imagery slug information.
-- Variation counts that expand to 518 unique SKUs when combined with seeded randomness.
+- Variation counts that expand to 506 unique SKUs when combined with seeded randomness.
 
 The generator uses a seeded Mulberry32 pseudo-random number generator to ensure deterministic output. Passing the same seed always reproduces the same catalogue, pricing, and descriptive metadata.
 
@@ -41,7 +41,7 @@ To create a snapshot programmatically:
 import { generateCatalogSnapshot } from "./src";
 
 const customSnapshot = generateCatalogSnapshot({ seed: 2025 });
-console.log(customSnapshot.items.length); // 518
+console.log(customSnapshot.items.length); // 506
 ```
 
 ## Pre-Built Snapshot & Utilities

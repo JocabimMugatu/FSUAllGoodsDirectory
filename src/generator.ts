@@ -20,8 +20,8 @@ interface GenerateCatalogOptions {
 interface ProductTemplate {
   categoryId: CategoryId;
   baseName: string;
-  shortDescription: string;
-  detailedDescription: string;
+  synopsis: string;
+  detailPhrases: readonly string[];
   basePrice: number;
   sizeGroup: SizeGroup;
   tags: readonly string[];
@@ -29,7 +29,7 @@ interface ProductTemplate {
   featurePhrases: readonly string[];
   imageSlug: string;
   skuPrefix: string;
-  variationCount: number;
+  variations: number;
   colorFamilies?: readonly string[];
 }
 
@@ -44,13 +44,12 @@ const DEFAULT_COLORWAYS: readonly Colorway[] = [
   { primary: "Garnet", secondary: "Black", accent: "Gold" },
   { primary: "Matte Black", secondary: "Garnet", accent: "White" },
   { primary: "Heritage Garnet", secondary: "Cream", accent: "Gold" },
-  { primary: "Garnet", secondary: "White", accent: "Victory Gold" },
   { primary: "Charcoal", secondary: "Garnet", accent: "Stadium Silver" },
   { primary: "Garnet", secondary: "Seminole Tan", accent: "Victory Gold" },
   { primary: "Maroon", secondary: "Victory Gold", accent: "White" },
   { primary: "Midnight Garnet", secondary: "Gold", accent: "Graphite" },
-  { primary: "Garnet", secondary: "Stadium Silver", accent: "White" },
   { primary: "Matte Gold", secondary: "Garnet", accent: "Cream" },
+  { primary: "Garnet", secondary: "Stadium Silver", accent: "White" },
   { primary: "Speckled Granite", secondary: "Seminole Tan", accent: "Victory Gold" }
 ] as const;
 
@@ -66,15 +65,10 @@ const ADJECTIVES = [
   "Classic",
   "Renegade",
   "Seminole",
-  "Chief",
-  "Triumph",
-  "War Path",
-  "Unconquered",
-  "Legacy",
   "Frontline",
-  "Spearhead",
-  "Torch",
-  "Cypress"
+  "Triumph",
+  "Unconquered",
+  "Torch"
 ] as const;
 
 const MOTIFS = [
@@ -84,7 +78,6 @@ const MOTIFS = [
   "Script Noles",
   "Flying F",
   "Doak Campbell",
-  "Unconquered",
   "Fear the Spear",
   "Marching Chiefs",
   "Tomahawk",
@@ -109,1093 +102,578 @@ const STORY_TAGS = [
   "Limited Edition",
   "Sideline Issued",
   "Stadium Essential",
-  "Recycled",
   "Hand Finished"
+] as const;
+
+const DETAIL_CONNECTORS = [
+  "and brings a confident on-field look",
+  "with finishing touches loyal fans appreciate",
+  "ensuring it's ready for campus and beyond",
+  "making it a staple for alumni weekends",
+  "to keep the Garnet & Gold spirit visible"
 ] as const;
 
 const DEFAULT_FEATURES = [
   "moisture-wicking comfort",
   "UV 40+ protection",
-  "anti-odor technology",
+  "anti-odor yarn",
   "reinforced seams",
-  "four-way stretch flexibility",
-  "sustainably sourced materials",
-  "game day tested durability",
-  "a soft-hand finish",
+  "four-way stretch",
+  "sustainably sourced fibers",
   "premium embroidery",
   "bold collegiate graphics"
+] as const;
+
+const MATERIAL_FALLBACKS = [
+  "Recycled Fibers",
+  "Organic Cotton",
+  "Performance Mesh",
+  "Brushed Fleece",
+  "Durable Canvas",
+  "Tempered Steel",
+  "Stoneware"
 ] as const;
 
 const PRODUCT_TEMPLATES: readonly ProductTemplate[] = [
   {
     categoryId: "apparel",
     baseName: "Performance Tee",
-    shortDescription: "Lightweight unisex tee built for the next big game.",
-    detailedDescription:
-      "Stay cool from first whistle to final drive with breathable mesh panels and an athletic cut inspired by the players.",
+    synopsis: "Lightweight tee built for hot kickoff afternoons.",
+    detailPhrases: [
+      "breathable mesh panelling keeps air flowing",
+      "stretch knit moves with every chant",
+      "flatlock seams minimise distraction"
+    ],
     basePrice: 34,
     sizeGroup: "adult_unisex_apparel",
     tags: ["tee", "performance", "lightweight"],
-    materials: ["Performance Polyester", "Mesh Ventilation", "Recycled Fibers"],
-    featurePhrases: [
-      "mesh underarm gussets",
-      "heat-transfer Seminole crest",
-      "vented side split hem",
-      "flatlock seam construction"
-    ],
+    materials: ["Performance Polyester", "Mesh Vents"],
+    featurePhrases: ["laser-cut underarms", "athletic crew collar", "vented side split"],
     imageSlug: "performance-tee",
     skuPrefix: "APP01",
-    variationCount: 16,
-    colorFamilies: ["Garnet", "Victory Gold", "Charcoal", "Matte Black"]
+    variations: 26
   },
   {
     categoryId: "apparel",
     baseName: "Heritage Polo",
-    shortDescription: "Sideline-approved polo with moisture control.",
-    detailedDescription:
-      "Engineered with stretch pique fabric and subtle tonal striping for elevated campus-ready polish.",
+    synopsis: "Sideline-inspired polo with moisture control.",
+    detailPhrases: [
+      "micro-pique fabric keeps things crisp",
+      "contrast collar tipping highlights team colours",
+      "three-button placket dresses up tailgate looks"
+    ],
     basePrice: 62,
     sizeGroup: "adult_unisex_apparel",
     tags: ["polo", "sideline", "heritage"],
-    materials: ["Stretch Pique", "Cooling Yarn Blend"],
-    featurePhrases: [
-      "taped shoulder seams",
-      "three-button placket",
-      "contrast collar tipping",
-      "laser-cut ventilation"
-    ],
+    materials: ["Stretch Pique", "Cooling Yarn"],
+    featurePhrases: ["laser ventilation", "contrast collar", "locker loop"],
     imageSlug: "heritage-polo",
     skuPrefix: "APP02",
-    variationCount: 14,
-    colorFamilies: ["Garnet", "White", "Graphite", "Victory Gold"]
-  },
-  {
-    categoryId: "apparel",
-    baseName: "Retro Crewneck",
-    shortDescription: "Brushed fleece crew celebrating iconic campus art.",
-    detailedDescription:
-      "Vintage-inspired chenille patches and garment-washed softness deliver a throwback feel with modern warmth.",
-    basePrice: 68,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["crewneck", "vintage", "fleece"],
-    materials: ["Ring-Spun Cotton", "Brushed Fleece", "Recycled Polyester"],
-    featurePhrases: [
-      "rib-knit cuffs",
-      "drop shoulder silhouette",
-      "garment-dyed finish",
-      "heritage chenille patches"
-    ],
-    imageSlug: "retro-crewneck",
-    skuPrefix: "APP03",
-    variationCount: 12,
-    colorFamilies: ["Heritage Garnet", "Cream", "Matte Black"]
-  },
-  {
-    categoryId: "apparel",
-    baseName: "Campus Jogger",
-    shortDescription: "Athletic joggers designed for all-day Seminole pride.",
-    detailedDescription:
-      "Streamlined modern fit with zippered media pockets and a brushed interior that keeps you ready for any rally.",
-    basePrice: 58,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["pants", "athleisure", "joggers"],
-    materials: ["Double-Knit Fleece", "Recycled Nylon Panels"],
-    featurePhrases: [
-      "zippered utility pocket",
-      "articulated knees",
-      "elastic cuffs",
-      "waist drawcord eyelets"
-    ],
-    imageSlug: "campus-jogger",
-    skuPrefix: "APP04",
-    variationCount: 12,
-    colorFamilies: ["Matte Black", "Charcoal", "Garnet"]
+    variations: 24
   },
   {
     categoryId: "apparel",
     baseName: "Script Hoodie",
-    shortDescription: "Midweight hoodie with plush interior and script logo.",
-    detailedDescription:
-      "Elevated fleece hoodie featuring a double-layer hood, tonal embroidery, and premium rib details for an on-trend fit.",
-    basePrice: 74,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["hoodie", "midweight", "script"],
-    materials: ["Cotton Fleece", "Poly Blend Lining"],
-    featurePhrases: [
-      "kangaroo media pocket",
-      "lined hood",
-      "embroidered script logo",
-      "contrast drawcord"
+    synopsis: "Midweight fleece hoodie with tonal script logo.",
+    detailPhrases: [
+      "double-layer hood blocks the evening breeze",
+      "kangaroo pocket stores gameday essentials",
+      "rib trims keep the profile tidy"
     ],
+    basePrice: 72,
+    sizeGroup: "adult_unisex_apparel",
+    tags: ["hoodie", "script", "midweight"],
+    materials: ["Cotton Fleece", "Poly Blend"],
+    featurePhrases: ["contrast drawcord", "soft brushed interior", "locker patch"],
     imageSlug: "script-hoodie",
-    skuPrefix: "APP05",
-    variationCount: 14,
-    colorFamilies: ["Garnet", "Matte Black", "White", "Graphite"]
+    skuPrefix: "APP03",
+    variations: 24
   },
   {
     categoryId: "apparel",
-    baseName: "Varsity Long Sleeve",
-    shortDescription: "Breathable long sleeve tee with varsity striping.",
-    detailedDescription:
-      "Slub jersey fabric and vintage sleeve striping make this a layered staple when the breeze rolls into the stadium.",
-    basePrice: 42,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["long sleeve", "varsity", "layering"],
-    materials: ["Slub Cotton", "Poly Jersey Blend"],
-    featurePhrases: [
-      "applique sleeve stripes",
-      "athletic rib collar",
-      "locker loop detail",
-      "side split hem"
+    baseName: "Retro Crew",
+    synopsis: "Vintage crewneck celebrating classic campus art.",
+    detailPhrases: [
+      "garment wash gives an already-loved feel",
+      "chenille patchwork nods to championship banners",
+      "drop shoulder fit layers easily"
     ],
-    imageSlug: "varsity-long-sleeve",
-    skuPrefix: "APP06",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Cream", "Victory Gold"]
+    basePrice: 68,
+    sizeGroup: "adult_unisex_apparel",
+    tags: ["crewneck", "vintage", "fleece"],
+    materials: ["Ring-Spun Cotton", "Brushed Fleece"],
+    featurePhrases: ["rib cuffs", "heritage patches", "contrast stitching"],
+    imageSlug: "retro-crew",
+    skuPrefix: "APP04",
+    variations: 20
   },
   {
     categoryId: "apparel",
-    baseName: "Gameday Tank",
-    shortDescription: "Lightweight tank ready for midday kickoffs.",
-    detailedDescription:
-      "Sweat-wicking fabric, mesh racerback panels, and bold collegiate graphics combine for hot-day tailgates.",
+    baseName: "Campus Jogger",
+    synopsis: "Athletic jogger ready for sunrise practice and travel days.",
+    detailPhrases: [
+      "zippered media pocket protects small tech",
+      "articulated knees keep movement natural",
+      "cuffed hems show off your favorite sneakers"
+    ],
+    basePrice: 58,
+    sizeGroup: "adult_unisex_apparel",
+    tags: ["pants", "athleisure", "jogger"],
+    materials: ["Double-Knit Fleece", "Recycled Nylon"],
+    featurePhrases: ["zip pocket", "drawcord waistband", "articulated knees"],
+    imageSlug: "campus-jogger",
+    skuPrefix: "APP05",
+    variations: 20
+  },
+  {
+    categoryId: "apparel",
+    baseName: "Game Day Tank",
+    synopsis: "Lightweight tank for sunny tailgate sessions.",
+    detailPhrases: [
+      "mesh racerback keeps airflow moving",
+      "soft-hand print stays vibrant wash after wash",
+      "scalloped hem flatters layered looks"
+    ],
     basePrice: 36,
     sizeGroup: "women_apparel",
     tags: ["tank", "women", "lightweight"],
-    materials: ["Poly Mesh", "Soft Touch Jersey"],
-    featurePhrases: [
-      "laser-cut racerback",
-      "scalloped hem",
-      "flat seam binding"
-    ],
-    imageSlug: "gameday-tank",
-    skuPrefix: "APP07",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "White", "Citrus Flash"]
-  },
-  {
-    categoryId: "apparel",
-    baseName: "Club Quarter-Zip",
-    shortDescription: "Layerable quarter-zip with breathable paneling.",
-    detailedDescription:
-      "Contrast woven overlays and an athletic mock neck deliver a modern sideline aesthetic for transitional weather.",
-    basePrice: 64,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["quarter zip", "layering", "sideline"],
-    materials: ["Tech Fleece", "Woven Overlays"],
-    featurePhrases: [
-      "concealed kangaroo pocket",
-      "thumbhole cuffs",
-      "reflective piping",
-      "drop-tail hem"
-    ],
-    imageSlug: "club-quarter-zip",
-    skuPrefix: "APP08",
-    variationCount: 12,
-    colorFamilies: ["Garnet", "Charcoal", "Matte Black"]
-  },
-  {
-    categoryId: "apparel",
-    baseName: "Heritage Baseball Tee",
-    shortDescription: "Two-tone raglan built for relaxed spirit wear.",
-    detailedDescription:
-      "Ring-spun cotton softness, contrast raglan sleeves, and a throwback print honouring championship seasons.",
-    basePrice: 38,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["raglan", "heritage", "casual"],
-    materials: ["Ring-Spun Cotton", "Heathered Jersey"],
-    featurePhrases: [
-      "contrast raglan sleeves",
-      "locker patch detail",
-      "vintage soft-hand ink"
-    ],
-    imageSlug: "heritage-baseball-tee",
-    skuPrefix: "APP09",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Victory Gold", "Vintage White"]
-  },
-  {
-    categoryId: "apparel",
-    baseName: "Velocity Compression Top",
-    shortDescription: "Engineered compression for training days.",
-    detailedDescription:
-      "Strategically placed ventilation zones and four-way stretch keep you moving with unstoppable energy.",
-    basePrice: 48,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["compression", "training", "performance"],
-    materials: ["Nylon Elastane", "Vent Mesh"],
-    featurePhrases: [
-      "body-mapped ventilation",
-      "ergonomic seaming",
-      "anti-slip hem",
-      "reflective spear motif"
-    ],
-    imageSlug: "velocity-compression-top",
-    skuPrefix: "APP10",
-    variationCount: 12,
-    colorFamilies: ["Matte Black", "Garnet", "Charcoal"]
+    materials: ["Poly Mesh", "Soft Jersey"],
+    featurePhrases: ["laser racerback", "scalloped hem", "flat seams"],
+    imageSlug: "game-day-tank",
+    skuPrefix: "APP06",
+    variations: 20
   },
   {
     categoryId: "outerwear",
     baseName: "Sideline Puffer",
-    shortDescription: "Insulated puffer ready for cold night kickoffs.",
-    detailedDescription:
-      "Layer up with lightweight synthetic insulation, weather-resistant shell fabric, and bold sideline branding.",
+    synopsis: "Insulated puffer tuned for cold night kickoffs.",
+    detailPhrases: [
+      "lightweight fill traps heat without bulk",
+      "storm guard hood cinches tight",
+      "zip chest pocket stashes passes"
+    ],
     basePrice: 142,
     sizeGroup: "adult_unisex_apparel",
-    tags: ["puffer", "cold weather", "sideline"],
+    tags: ["puffer", "sideline", "cold"],
     materials: ["Synthetic Down", "Ripstop Shell"],
-    featurePhrases: [
-      "storm guard hood",
-      "zippered chest pocket",
-      "stadium pass pocket",
-      "bungee hem adjustment"
-    ],
+    featurePhrases: ["storm hood", "zip chest pocket", "bungee hem"],
     imageSlug: "sideline-puffer",
     skuPrefix: "OUT01",
-    variationCount: 12,
-    colorFamilies: ["Garnet", "Storm Grey", "Matte Black"]
-  },
-  {
-    categoryId: "outerwear",
-    baseName: "Varsity Letterman",
-    shortDescription: "Wool-blend varsity jacket with chenille appliqué.",
-    detailedDescription:
-      "Classic varsity styling meets modern tailoring with leather sleeves and limited-edition back embroidery.",
-    basePrice: 198,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["letterman", "limited", "collector"],
-    materials: ["Wool Blend", "Genuine Leather", "Poly Satin Lining"],
-    featurePhrases: [
-      "contrast leather sleeves",
-      "embroidered championship years",
-      "snap front closure",
-      "custom woven labels"
-    ],
-    imageSlug: "varsity-letterman",
-    skuPrefix: "OUT02",
-    variationCount: 8,
-    colorFamilies: ["Heritage Garnet", "Matte Black"]
+    variations: 16
   },
   {
     categoryId: "outerwear",
     baseName: "Storm Anorak",
-    shortDescription: "Water-resistant anorak built for unpredictable forecasts.",
-    detailedDescription:
-      "Half-zip silhouette with welded seams, packable hood, and tonal branding for stealth support in the stands.",
-    basePrice: 110,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["anorak", "weatherproof", "layering"],
-    materials: ["Performance Nylon", "Seam Seal Tape"],
-    featurePhrases: [
-      "zippered kangaroo pouch",
-      "adjustable cuffs",
-      "packable hood",
-      "water-beading finish"
+    synopsis: "Weather-ready anorak with stealth branding.",
+    detailPhrases: [
+      "water-beading finish shakes off surprise showers",
+      "packable hood pops up in seconds",
+      "welded seams stop the wind"
     ],
+    basePrice: 108,
+    sizeGroup: "adult_unisex_apparel",
+    tags: ["anorak", "weather", "layer"],
+    materials: ["Performance Nylon", "Seam Tape"],
+    featurePhrases: ["packable hood", "welded seams", "zip pouch"],
     imageSlug: "storm-anorak",
-    skuPrefix: "OUT03",
-    variationCount: 10,
-    colorFamilies: ["Charcoal", "Garnet", "Stadium Silver"]
+    skuPrefix: "OUT02",
+    variations: 16
   },
   {
     categoryId: "outerwear",
-    baseName: "Legacy Coaches Jacket",
-    shortDescription: "Snap-front jacket with satin lining and bold back graphic.",
-    detailedDescription:
-      "Inspired by 90s sideline archives, this jacket features striped rib trims and a statement Seminoles wordmark.",
+    baseName: "Coaches Jacket",
+    synopsis: "Snap-front jacket with satin lining and bold back graphic.",
+    detailPhrases: [
+      "striped rib trims mirror archival pieces",
+      "snap front makes on-off easy between drills",
+      "subtle interior pocket hides credentials"
+    ],
     basePrice: 96,
     sizeGroup: "adult_unisex_apparel",
-    tags: ["coaches jacket", "heritage", "sideline"],
+    tags: ["coaches", "heritage", "sideline"],
     materials: ["Nylon Shell", "Satin Lining"],
-    featurePhrases: [
-      "striped rib cuffs",
-      "storm flap",
-      "snap front",
-      "embroidered back graphic"
-    ],
-    imageSlug: "legacy-coaches-jacket",
-    skuPrefix: "OUT04",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Matte Black", "Victory Gold"]
-  },
-  {
-    categoryId: "outerwear",
-    baseName: "Cypress Sherpa",
-    shortDescription: "Ultra-soft sherpa fleece with tonal overlays.",
-    detailedDescription:
-      "Cozy sherpa warmth pairs with water-resistant overlays and a subtle spear patch on the chest pocket.",
-    basePrice: 98,
-    sizeGroup: "adult_unisex_apparel",
-    tags: ["sherpa", "cozy", "fall"],
-    materials: ["High-Pile Sherpa", "Ripstop Overlay"],
-    featurePhrases: [
-      "secure chest pocket",
-      "elastic binding",
-      "stand collar",
-      "contrast overlay panels"
-    ],
-    imageSlug: "cypress-sherpa",
-    skuPrefix: "OUT05",
-    variationCount: 8,
-    colorFamilies: ["Cream", "Garnet", "Seminole Tan"]
+    featurePhrases: ["striped rib", "snap front", "interior pocket"],
+    imageSlug: "coaches-jacket",
+    skuPrefix: "OUT03",
+    variations: 14
   },
   {
     categoryId: "headwear",
-    baseName: "Heritage 59FIFTY Cap",
-    shortDescription: "Structured fitted cap with raised embroidery.",
-    detailedDescription:
-      "Official on-field silhouette featuring moisture-wicking banding and an iconic raised spear embroidery.",
+    baseName: "Structured Cap",
+    synopsis: "Structured fitted cap with raised embroidery.",
+    detailPhrases: [
+      "moisture-wicking band keeps comfort dialed in",
+      "contrast undervisor cuts glare",
+      "structured crown keeps its shape"
+    ],
     basePrice: 42,
     sizeGroup: "headwear",
     tags: ["cap", "fitted", "on-field"],
-    materials: ["Poly Wool Blend", "Moisture Wicking Headband"],
-    featurePhrases: [
-      "fused crown",
-      "raised embroidery",
-      "contrast undervisor",
-      "built-in sweatband"
-    ],
-    imageSlug: "heritage-59fifty",
+    materials: ["Poly Wool Blend", "Performance Sweatband"],
+    featurePhrases: ["raised embroidery", "contrast undervisor", "fused crown"],
+    imageSlug: "structured-cap",
     skuPrefix: "HDW01",
-    variationCount: 12,
-    colorFamilies: ["Garnet", "Matte Black", "Victory Gold"]
+    variations: 16
   },
   {
     categoryId: "headwear",
     baseName: "Trucker Snapback",
-    shortDescription: "Mesh back snapback with campus patch.",
-    detailedDescription:
-      "Breathable mesh back panels, a rope-accent bill, and a vintage campus shield patch command attention.",
+    synopsis: "Mesh-back snapback with rope bill detail.",
+    detailPhrases: [
+      "breathable mesh keeps air moving",
+      "rope accent adds throwback flair",
+      "adjustable snap customises the fit"
+    ],
     basePrice: 32,
     sizeGroup: "headwear",
-    tags: ["snapback", "rope", "mesh"],
+    tags: ["snapback", "mesh", "rope"],
     materials: ["Cotton Twill", "Poly Mesh"],
-    featurePhrases: [
-      "contrast rope bill",
-      "adjustable snap",
-      "mesh back panels",
-      "woven campus patch"
-    ],
+    featurePhrases: ["rope bill", "mesh panels", "adjustable snap"],
     imageSlug: "trucker-snapback",
     skuPrefix: "HDW02",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Cream", "Matte Black"]
+    variations: 16
   },
   {
     categoryId: "headwear",
-    baseName: "Sideline Visor",
-    shortDescription: "Lightweight visor built for hot game days.",
-    detailedDescription:
-      "Stretch-fit visor with laser perforations and a raised spear hit on the crown for coaches' vibes.",
+    baseName: "Performance Visor",
+    synopsis: "Lightweight visor for midday practices.",
+    detailPhrases: [
+      "laser perforations keep heat off the crown",
+      "hook-and-loop strap adjusts in seconds",
+      "sweatband handles long rally chants"
+    ],
     basePrice: 28,
     sizeGroup: "headwear",
     tags: ["visor", "sideline", "lightweight"],
-    materials: ["Performance Polyester", "Laser Cut Panels"],
-    featurePhrases: [
-      "laser perforated crown",
-      "moisture-wick band",
-      "hook-and-loop closure"
-    ],
-    imageSlug: "sideline-visor",
+    materials: ["Performance Polyester", "Laser Panels"],
+    featurePhrases: ["laser perforations", "moisture band", "hook strap"],
+    imageSlug: "performance-visor",
     skuPrefix: "HDW03",
-    variationCount: 10,
-    colorFamilies: ["White", "Garnet", "Victory Gold"]
-  },
-  {
-    categoryId: "headwear",
-    baseName: "Cuffed Beanie",
-    shortDescription: "Rib knit beanie with woven Seminole label.",
-    detailedDescription:
-      "Cold weather essential featuring a soft fleece lining and tonal woven label pulled from the Spirit collection.",
-    basePrice: 30,
-    sizeGroup: "headwear",
-    tags: ["beanie", "winter", "rib knit"],
-    materials: ["Acrylic Knit", "Fleece Lining"],
-    featurePhrases: [
-      "fleece interior",
-      "woven front label",
-      "double cuff",
-      "contrast pom"
-    ],
-    imageSlug: "cuffed-beanie",
-    skuPrefix: "HDW04",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Cream", "Charcoal"]
-  },
-  {
-    categoryId: "headwear",
-    baseName: "Performance Bucket Hat",
-    shortDescription: "360° sun coverage with Seminole flair.",
-    detailedDescription:
-      "All-conditions bucket hat constructed with quick-dry fabric, mesh eyelets, and an adjustable toggle.",
-    basePrice: 36,
-    sizeGroup: "headwear",
-    tags: ["bucket", "sun", "performance"],
-    materials: ["Ripstop Nylon", "Mesh Eyelets"],
-    featurePhrases: [
-      "adjustable crown toggle",
-      "UPF-rated fabric",
-      "sweatband lining",
-      "stitched brim detail"
-    ],
-    imageSlug: "performance-bucket",
-    skuPrefix: "HDW05",
-    variationCount: 12,
-    colorFamilies: ["Garnet", "Field Green", "Charcoal"]
+    variations: 14
   },
   {
     categoryId: "footwear",
-    baseName: "Garnet Trainer",
-    shortDescription: "Lightweight trainer tuned for campus commutes.",
-    detailedDescription:
-      "Responsive cushioning, breathable knit uppers, and no-slip laces help you sprint between classes and kickoff."
-      ,
+    baseName: "Campus Trainer",
+    synopsis: "Lightweight trainer tuned for campus commutes.",
+    detailPhrases: [
+      "responsive foam cushions every step",
+      "engineered knit breathes with ease",
+      "TPU heel clip locks in support"
+    ],
     basePrice: 98,
     sizeGroup: "footwear",
     tags: ["trainer", "sneaker", "lightweight"],
-    materials: ["Engineered Knit", "TPU Heel Clip", "Responsive Foam"],
-    featurePhrases: [
-      "responsive foam midsole",
-      "engineered knit upper",
-      "sem translucent outsole",
-      "waxed lace system"
-    ],
-    imageSlug: "garnet-trainer",
+    materials: ["Engineered Knit", "Responsive Foam", "TPU Clip"],
+    featurePhrases: ["foam midsole", "knit upper", "woven heel tab"],
+    imageSlug: "campus-trainer",
     skuPrefix: "FTW01",
-    variationCount: 12,
-    colorFamilies: ["Garnet", "Matte Black", "Stadium Silver"]
+    variations: 18
   },
   {
     categoryId: "footwear",
     baseName: "Doak Slides",
-    shortDescription: "Comfort slides inspired by stadium seating.",
-    detailedDescription:
-      "Molded footbeds with texture mapping and spear debossing deliver comfort whether you're poolside or tailgating.",
-    basePrice: 48,
-    sizeGroup: "footwear",
-    tags: ["slides", "comfort", "casual"],
-    materials: ["EVA Foam", "Textured Footbed"],
-    featurePhrases: [
-      "textured footbed",
-      "embossed strap logo",
-      "dual-density foam",
-      "water-friendly design"
+    synopsis: "Molded slides inspired by stadium seating.",
+    detailPhrases: [
+      "textured footbed grips after pool sessions",
+      "dual-density foam softens landings",
+      "strap embossing shows team pride"
     ],
+    basePrice: 46,
+    sizeGroup: "footwear",
+    tags: ["slides", "casual", "comfort"],
+    materials: ["EVA Foam", "Textured Footbed"],
+    featurePhrases: ["embossed strap", "dual foam", "water friendly"],
     imageSlug: "doak-slides",
     skuPrefix: "FTW02",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "White", "Graphite"]
+    variations: 16
   },
   {
     categoryId: "footwear",
-    baseName: "Sideline Cleat",
-    shortDescription: "Practice-ready cleat with Seminole detailing.",
-    detailedDescription:
-      "Lightweight synthetic upper and plate built to mirror player-issued gear with tonal spear hits on each quarter.",
-    basePrice: 125,
-    sizeGroup: "footwear",
-    tags: ["cleat", "sideline", "performance"],
-    materials: ["Synthetic Upper", "Carbon Plate"],
-    featurePhrases: [
-      "carbon-infused plate",
-      "internal bootie",
-      "lace lock system",
-      "aggressive stud pattern"
+    baseName: "Luxe High-Top",
+    synopsis: "Premium lifestyle high-top with leather overlays.",
+    detailPhrases: [
+      "full-grain leather breaks in beautifully",
+      "suede heel counter adds depth",
+      "speckled midsole nods to garnet confetti"
     ],
-    imageSlug: "sideline-cleat",
-    skuPrefix: "FTW03",
-    variationCount: 12,
-    colorFamilies: ["Matte Black", "Garnet", "Victory Gold"]
-  },
-  {
-    categoryId: "footwear",
-    baseName: "Luxe Hypercourt",
-    shortDescription: "High-top lifestyle sneaker with premium trims.",
-    detailedDescription:
-      "Full-grain leather uppers, suede overlays, and metallic eyelets elevate this lifestyle build with campus heritage cues.",
-    basePrice: 142,
+    basePrice: 138,
     sizeGroup: "footwear",
     tags: ["sneaker", "premium", "lifestyle"],
     materials: ["Full-Grain Leather", "Suede Overlays", "Rubber Cupsole"],
-    featurePhrases: [
-      "metal aglets",
-      "suede heel counter",
-      "speckled midsole",
-      "embroidered tongue patch"
-    ],
-    imageSlug: "luxe-hypercourt",
-    skuPrefix: "FTW04",
-    variationCount: 14,
-    colorFamilies: ["Garnet", "Seminole Tan", "Matte Black"]
+    featurePhrases: ["metal eyelets", "suede heel", "speckled midsole"],
+    imageSlug: "luxe-high-top",
+    skuPrefix: "FTW03",
+    variations: 16
   },
   {
     categoryId: "accessories",
-    baseName: "Stadium Tote",
-    shortDescription: "Clear tote meeting stadium entry guidelines.",
-    detailedDescription:
-      "Reinforced edges, tonal straps, and weatherproof zipper help you bring the essentials through security with ease.",
+    baseName: "Clear Stadium Tote",
+    synopsis: "Stadium-approved tote with reinforced trims.",
+    detailPhrases: [
+      "weather-treated edging adds structure",
+      "contrast straps highlight school colours",
+      "zip pocket secures loose items"
+    ],
     basePrice: 32,
     sizeGroup: "accessories",
-    tags: ["bag", "stadium compliant", "clear bag"],
+    tags: ["bag", "stadium", "clear"],
     materials: ["Clear TPU", "Reinforced Nylon"],
-    featurePhrases: [
-      "reinforced seams",
-      "weatherproof zipper",
-      "contrast straps",
-      "detachable pouch"
-    ],
-    imageSlug: "stadium-tote",
+    featurePhrases: ["weather zip", "contrast straps", "detachable pouch"],
+    imageSlug: "clear-stadium-tote",
     skuPrefix: "ACC01",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Victory Gold", "Charcoal"]
-  },
-  {
-    categoryId: "accessories",
-    baseName: "Heritage Scarf",
-    shortDescription: "Knit scarf with jacquard logos and fringe.",
-    detailedDescription:
-      "Soft-touch yarns and oversized team graphics keep you warm while chanting down the opponent section.",
-    basePrice: 28,
-    sizeGroup: "accessories",
-    tags: ["scarf", "winter", "knit"],
-    materials: ["Acrylic Knit", "Fringe Detailing"],
-    featurePhrases: [
-      "jacquard logos",
-      "double-sided design",
-      "tassel fringe",
-      "soft brushed feel"
-    ],
-    imageSlug: "heritage-scarf",
-    skuPrefix: "ACC02",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Victory Gold", "Cream"]
-  },
-  {
-    categoryId: "accessories",
-    baseName: "Campus Lanyard",
-    shortDescription: "Durable lanyard with detachable clip and key ring.",
-    detailedDescription:
-      "Satin finish webbing and sublimated graphics ensure your FSU credentials stay close on campus and on the road.",
-    basePrice: 12,
-    sizeGroup: "accessories",
-    tags: ["lanyard", "essentials", "gift"],
-    materials: ["Polyester Webbing", "Metal Hardware"],
-    featurePhrases: [
-      "detachable buckle",
-      "double-sided print",
-      "metal swivel clasp"
-    ],
-    imageSlug: "campus-lanyard",
-    skuPrefix: "ACC03",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Victory Gold", "Black"]
+    variations: 16
   },
   {
     categoryId: "accessories",
     baseName: "Seminole Duffel",
-    shortDescription: "Carryall duffel sized for weekend trips.",
-    detailedDescription:
-      "Water-resistant canvas, reinforced base, and oversized spear embroidery make this bag a conversation starter.",
+    synopsis: "Travel-ready duffel sized for weekend trips.",
+    detailPhrases: [
+      "coated canvas repels light rain",
+      "reinforced base handles heavy loads",
+      "shoe garage keeps cleats separate"
+    ],
     basePrice: 94,
     sizeGroup: "accessories",
     tags: ["bag", "travel", "duffel"],
-    materials: ["Coated Canvas", "Reinforced Base", "Metal Hardware"],
-    featurePhrases: [
-      "removable shoulder strap",
-      "shoe garage",
-      "embossed handles",
-      "oversized embroidery"
-    ],
+    materials: ["Coated Canvas", "Metal Hardware"],
+    featurePhrases: ["removable strap", "shoe garage", "embossed handles"],
     imageSlug: "seminole-duffel",
+    skuPrefix: "ACC02",
+    variations: 16
+  },
+  {
+    categoryId: "accessories",
+    baseName: "Heritage Scarf",
+    synopsis: "Soft knit scarf with jacquard graphics.",
+    detailPhrases: [
+      "double-sided artwork shows love from every angle",
+      "fringe ends add movement",
+      "soft yarn keeps warmth close"
+    ],
+    basePrice: 28,
+    sizeGroup: "accessories",
+    tags: ["scarf", "winter", "knit"],
+    materials: ["Acrylic Knit", "Fringe Detailing"],
+    featurePhrases: ["jacquard art", "double sided", "tassel fringe"],
+    imageSlug: "heritage-scarf",
+    skuPrefix: "ACC03",
+    variations: 16
+  },
+  {
+    categoryId: "accessories",
+    baseName: "Campus Lanyard",
+    synopsis: "Durable lanyard for IDs and keys.",
+    detailPhrases: [
+      "satin webbing feels smooth against the skin",
+      "detachable buckle hands off badges fast",
+      "metal swivel clip secures passes"
+    ],
+    basePrice: 12,
+    sizeGroup: "accessories",
+    tags: ["lanyard", "essentials", "gift"],
+    materials: ["Polyester Webbing", "Metal Hardware"],
+    featurePhrases: ["detachable buckle", "double print", "swivel clasp"],
+    imageSlug: "campus-lanyard",
     skuPrefix: "ACC04",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Matte Black", "Seminole Tan"]
-  },
-  {
-    categoryId: "accessories",
-    baseName: "Legacy Belt",
-    shortDescription: "Full-grain leather belt with etched buckle.",
-    detailedDescription:
-      "Hand-finished leather and a custom nickel buckle etched with the block FSU seal elevate daily uniforms.",
-    basePrice: 46,
-    sizeGroup: "accessories",
-    tags: ["belt", "leather", "premium"],
-    materials: ["Full-Grain Leather", "Nickel Buckle"],
-    featurePhrases: [
-      "laser-etched buckle",
-      "burnished edges",
-      "contrast stitching"
-    ],
-    imageSlug: "legacy-belt",
-    skuPrefix: "ACC05",
-    variationCount: 8,
-    colorFamilies: ["Seminole Tan", "Matte Black", "Garnet"]
-  },
-  {
-    categoryId: "accessories",
-    baseName: "Spear Wristband",
-    shortDescription: "Sweat-wicking wristband pair for practice and games.",
-    detailedDescription:
-      "Stretch terry construction with woven spear tab delivers dependable support during intense workouts.",
-    basePrice: 16,
-    sizeGroup: "accessories",
-    tags: ["wristband", "athletic", "sweat"],
-    materials: ["Stretch Terry", "Moisture Control Fibers"],
-    featurePhrases: [
-      "woven spear tab",
-      "compression fit",
-      "double-layer terry"
-    ],
-    imageSlug: "spear-wristband",
-    skuPrefix: "ACC06",
-    variationCount: 6,
-    colorFamilies: ["Garnet", "White", "Victory Gold"]
+    variations: 16
   },
   {
     categoryId: "tailgating",
     baseName: "Tailgate Canopy",
-    shortDescription: "10x10 canopy with weather-treated fabric.",
-    detailedDescription:
-      "Quick-deploy frame, UV-blocking fabric, and bold top panel graphics set the tone for pre-game gatherings.",
-    basePrice: 248,
+    synopsis: "10x10 canopy with weather-treated fabric.",
+    detailPhrases: [
+      "powder-coated frame pops up in minutes",
+      "UV-blocking fabric keeps the party shaded",
+      "logoed peak stands tall in the sea of fans"
+    ],
+    basePrice: 244,
     sizeGroup: "tailgate",
     tags: ["canopy", "tailgate", "outdoor"],
-    materials: ["Powder-Coated Steel", "Weather-Treated Polyester"],
-    featurePhrases: [
-      "push-button frame",
-      "UV 50+ fabric",
-      "double-stitched seams",
-      "roller carry bag"
-    ],
+    materials: ["Steel Frame", "Weather Polyester"],
+    featurePhrases: ["push button frame", "UV fabric", "roller bag"],
     imageSlug: "tailgate-canopy",
     skuPrefix: "TLG01",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Victory Gold", "Field Green"]
-  },
-  {
-    categoryId: "tailgating",
-    baseName: "Spirit Chair",
-    shortDescription: "Foldable tailgate chair with cup holders.",
-    detailedDescription:
-      "Powder-coated frame, double cup holders, and a breathable back panel keep the cheers rolling quarters deep.",
-    basePrice: 68,
-    sizeGroup: "tailgate",
-    tags: ["chair", "portable", "tailgate"],
-    materials: ["Steel Frame", "Polyester Fabric"],
-    featurePhrases: [
-      "dual cup holders",
-      "mesh back panel",
-      "reinforced feet",
-      "shoulder carry bag"
-    ],
-    imageSlug: "spirit-chair",
-    skuPrefix: "TLG02",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Victory Gold", "Matte Black"]
+    variations: 18
   },
   {
     categoryId: "tailgating",
     baseName: "Insulated Cooler",
-    shortDescription: "Soft cooler with leakproof lining and spear graphic.",
-    detailedDescription:
-      "Keeps beverages icy thanks to high-density foam insulation and fully sealed seams with tonal embroidery.",
-    basePrice: 88,
+    synopsis: "Soft cooler with leakproof lining and spear graphic.",
+    detailPhrases: [
+      "heat-sealed seams prevent melting messes",
+      "front pocket stores bottle openers",
+      "adjustable strap swings comfortably"
+    ],
+    basePrice: 86,
     sizeGroup: "tailgate",
     tags: ["cooler", "insulated", "tailgate"],
     materials: ["600D Polyester", "Leakproof Liner"],
-    featurePhrases: [
-      "heat-sealed liner",
-      "dual carry straps",
-      "front accessory pocket",
-      "bottle opener clip"
-    ],
+    featurePhrases: ["heat-sealed liner", "dual straps", "accessory pocket"],
     imageSlug: "insulated-cooler",
-    skuPrefix: "TLG03",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Charcoal", "Victory Gold"]
+    skuPrefix: "TLG02",
+    variations: 18
   },
   {
     categoryId: "tailgating",
-    baseName: "Premium Cornhole Set",
-    shortDescription: "Tournament-grade cornhole boards with custom bags.",
-    detailedDescription:
-      "Regulation size with UV-protected prints, collapsible legs, and dual-colour bags featuring team wordmarks.",
-    basePrice: 278,
+    baseName: "Cornhole Set",
+    synopsis: "Tournament-grade cornhole boards with custom bags.",
+    detailPhrases: [
+      "regulation sizing encourages serious play",
+      "folding legs make storage simple",
+      "resin-filled bags land with satisfying thunks"
+    ],
+    basePrice: 268,
     sizeGroup: "tailgate",
     tags: ["games", "cornhole", "tailgate"],
     materials: ["Birch Hardwood", "Canvas Bags"],
-    featurePhrases: [
-      "reinforced frame",
-      "folding legs",
-      "resin-filled bags",
-      "UV-protected artwork"
-    ],
-    imageSlug: "premium-cornhole",
-    skuPrefix: "TLG04",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Victory Gold", "Matte Black"]
-  },
-  {
-    categoryId: "tailgating",
-    baseName: "Spirit Flag",
-    shortDescription: "Durable flag with double-stitched edges.",
-    detailedDescription:
-      "Weather-resistant polyester and brass grommets keep this flag flying whether on RVs, porches, or campus greens.",
-    basePrice: 38,
-    sizeGroup: "tailgate",
-    tags: ["flag", "outdoor", "decor"],
-    materials: ["Weather-Resistant Polyester", "Brass Grommets"],
-    featurePhrases: [
-      "double-stitched edges",
-      "fade-resistant ink",
-      "two-sided graphics"
-    ],
-    imageSlug: "spirit-flag",
-    skuPrefix: "TLG05",
-    variationCount: 12,
-    colorFamilies: ["Garnet", "Victory Gold", "White"]
-  },
-  {
-    categoryId: "tailgating",
-    baseName: "Legacy Grilling Set",
-    shortDescription: "Three-piece grilling set with laser-etched logos.",
-    detailedDescription:
-      "Stainless tools with wooden handles house iconic marks and arrive in a durable roll-up carry case for gameday chefs.",
-    basePrice: 74,
-    sizeGroup: "tailgate",
-    tags: ["grilling", "gift", "tailgate"],
-    materials: ["Stainless Steel", "Hardwood Handles"],
-    featurePhrases: [
-      "laser-etched logos",
-      "hanging loops",
-      "padded carry roll"
-    ],
-    imageSlug: "legacy-grilling-set",
-    skuPrefix: "TLG06",
-    variationCount: 12,
-    colorFamilies: ["Seminole Tan", "Garnet", "Matte Black"]
+    featurePhrases: ["folding legs", "UV graphics", "resin bags"],
+    imageSlug: "cornhole-set",
+    skuPrefix: "TLG03",
+    variations: 16
   },
   {
     categoryId: "home_office",
-    baseName: "Campus Throw Blanket",
-    shortDescription: "Oversized throw with woven campus landmarks.",
-    detailedDescription:
-      "Soft jacquard weave captures beloved campus icons and adds instant Garnet & Gold to the living room.",
-    basePrice: 78,
+    baseName: "Campus Throw",
+    synopsis: "Oversized jacquard throw featuring campus landmarks.",
+    detailPhrases: [
+      "loom-knit artwork pops on any sofa",
+      "fringe edging nods to heritage pieces",
+      "soft touch keeps chill away"
+    ],
+    basePrice: 76,
     sizeGroup: "home_office",
     tags: ["blanket", "home", "decor"],
     materials: ["Jacquard Knit", "Brushed Acrylic"],
-    featurePhrases: [
-      "fringe edging",
-      "double-sided design",
-      "loom-knit construction"
-    ],
+    featurePhrases: ["fringe edge", "double sided", "loom knit"],
     imageSlug: "campus-throw",
     skuPrefix: "HOM01",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Cream", "Victory Gold"]
+    variations: 16
   },
   {
     categoryId: "home_office",
-    baseName: "Doak Blueprint Poster",
-    shortDescription: "18x24 poster of Doak Campbell Stadium blueprint.",
-    detailedDescription:
-      "Printed on archival paper with metallic foil accents, this blueprint elevates wall space with architectural pride.",
-    basePrice: 42,
-    sizeGroup: "home_office",
-    tags: ["poster", "art", "collectible"],
-    materials: ["Archival Paper", "Foil Accents"],
-    featurePhrases: [
-      "archival inks",
-      "metallic foil",
-      "hand-numbered"
+    baseName: "Stoneware Mug",
+    synopsis: "16oz stoneware mug with layered glazes.",
+    detailPhrases: [
+      "reactive glaze creates one-of-a-kind patterns",
+      "medallion badge shows off the crest",
+      "sturdy handle handles early classes"
     ],
-    imageSlug: "doak-blueprint",
+    basePrice: 28,
+    sizeGroup: "home_office",
+    tags: ["mug", "drinkware", "stoneware"],
+    materials: ["Stoneware", "Reactive Glaze"],
+    featurePhrases: ["hand-applied medallion", "dishwasher safe", "microwave ready"],
+    imageSlug: "stoneware-mug",
     skuPrefix: "HOM02",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Matte Black", "Stadium Silver"]
+    variations: 16
   },
   {
     categoryId: "home_office",
     baseName: "Script Desk Mat",
-    shortDescription: "Extended desk mat with micro-weave surface.",
-    detailedDescription:
-      "Precision-stitched edges, rubberised backing, and a script Noles motif add spirit to workstations.",
-    basePrice: 36,
+    synopsis: "Extended desk mat with micro-weave surface.",
+    detailPhrases: [
+      "anti-fray stitching survives long study nights",
+      "rubber backing stays planted",
+      "micro-weave tracks mice smoothly"
+    ],
+    basePrice: 34,
     sizeGroup: "home_office",
     tags: ["desk", "workspace", "gaming"],
     materials: ["Micro-Weave Fabric", "Rubber Backing"],
-    featurePhrases: [
-      "anti-fray stitching",
-      "colourfast print",
-      "non-slip backing"
-    ],
+    featurePhrases: ["anti-fray edges", "non-slip base", "colourfast print"],
     imageSlug: "script-desk-mat",
     skuPrefix: "HOM03",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Matte Black", "Stadium Silver"]
-  },
-  {
-    categoryId: "home_office",
-    baseName: "Seminole Stoneware Mug",
-    shortDescription: "16oz stoneware mug with layered glazes.",
-    detailedDescription:
-      "Kiln-fired mug featuring a hand-applied Seminole crest medallion and reactive glaze that makes each piece unique.",
-    basePrice: 28,
-    sizeGroup: "home_office",
-    tags: ["drinkware", "mug", "stoneware"],
-    materials: ["Stoneware", "Reactive Glaze"],
-    featurePhrases: [
-      "hand-applied medallion",
-      "microwave safe",
-      "dishwasher safe"
-    ],
-    imageSlug: "seminole-mug",
-    skuPrefix: "HOM04",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Cream", "Speckled Granite"]
-  },
-  {
-    categoryId: "home_office",
-    baseName: "Legacy Clock",
-    shortDescription: "Wood mantle clock with brass spear inlay.",
-    detailedDescription:
-      "Rich walnut stain, brass accents, and precision quartz movement make this a heirloom-quality office accent.",
-    basePrice: 118,
-    sizeGroup: "home_office",
-    tags: ["decor", "clock", "premium"],
-    materials: ["Hardwood", "Brass Inlay", "Quartz Movement"],
-    featurePhrases: [
-      "brass spear inlay",
-      "quartz movement",
-      "engraved name plate"
-    ],
-    imageSlug: "legacy-clock",
-    skuPrefix: "HOM05",
-    variationCount: 8,
-    colorFamilies: ["Seminole Tan", "Garnet", "Matte Black"]
-  },
-  {
-    categoryId: "home_office",
-    baseName: "Speckled Planter",
-    shortDescription: "Ceramic planter with engraved spear badge.",
-    detailedDescription:
-      "Matte glaze exterior and drainage-ready base make this planter a subtle nod to Garnet & Gold in any room.",
-    basePrice: 34,
-    sizeGroup: "home_office",
-    tags: ["planter", "home", "gift"],
-    materials: ["Ceramic", "Matte Glaze"],
-    featurePhrases: [
-      "integrated drainage",
-      "laser-etched badge",
-      "foam base"
-    ],
-    imageSlug: "speckled-planter",
-    skuPrefix: "HOM06",
-    variationCount: 8,
-    colorFamilies: ["Speckled Granite", "Cream", "Seminole Tan"]
+    variations: 16
   },
   {
     categoryId: "collectibles",
     baseName: "Signed Mini Helmet",
-    shortDescription: "Autographed mini helmet in protective display case.",
-    detailedDescription:
-      "Limited run mini helmets signed by program legends, complete with tamper-proof authentication and mirrored base.",
-    basePrice: 248,
+    synopsis: "Autographed mini helmet in protective display case.",
+    detailPhrases: [
+      "tamper-proof hologram verifies authenticity",
+      "mirrored base reflects every angle",
+      "numbered plaque marks the series"
+    ],
+    basePrice: 242,
     sizeGroup: "collectibles",
     tags: ["signed", "helmet", "limited"],
     materials: ["Polycarbonate Shell", "Acrylic Case"],
-    featurePhrases: [
-      "tamper-proof hologram",
-      "mirrored base",
-      "hand-signed",
-      "limited numbering"
-    ],
+    featurePhrases: ["tamper hologram", "mirrored base", "numbered plaque"],
     imageSlug: "signed-mini-helmet",
     skuPrefix: "COL01",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Victory Gold", "Matte Black"]
+    variations: 14
   },
   {
     categoryId: "collectibles",
-    baseName: "Game-Used Turf Display",
-    shortDescription: "Framed turf slice from historic matchups.",
-    detailedDescription:
-      "Encased slice of authenticated Doak Campbell turf paired with laser-engraved plaques recounting unforgettable wins.",
-    basePrice: 298,
-    sizeGroup: "collectibles",
-    tags: ["game used", "display", "premium"],
-    materials: ["Acrylic", "Hardwood Frame"],
-    featurePhrases: [
-      "laser-etched plaques",
-      "authenticated turf",
-      "limited edition"
+    baseName: "Championship Banner",
+    synopsis: "Wool felt banner celebrating title seasons.",
+    detailPhrases: [
+      "embroidered lettering honours the legacy",
+      "felt construction looks premium in any office",
+      "hanging tabs make installation easy"
     ],
-    imageSlug: "game-used-turf",
-    skuPrefix: "COL02",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Seminole Tan", "Matte Black"]
-  },
-  {
-    categoryId: "collectibles",
-    baseName: "Championship Ticket Shadowbox",
-    shortDescription: "Display shadowbox celebrating historic games.",
-    detailedDescription:
-      "Digitally remastered ticket artwork and metallic foil stamping create a centerpiece for trophy rooms.",
-    basePrice: 216,
-    sizeGroup: "collectibles",
-    tags: ["shadowbox", "ticket", "heritage"],
-    materials: ["Shadowbox Frame", "Foil Stamping"],
-    featurePhrases: [
-      "museum-grade mat",
-      "foil stamped titles",
-      "UV acrylic front"
-    ],
-    imageSlug: "ticket-shadowbox",
-    skuPrefix: "COL03",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Victory Gold", "Matte Black"]
-  },
-  {
-    categoryId: "collectibles",
-    baseName: "Program Cover Art Print",
-    shortDescription: "Limited art print of classic program covers.",
-    detailedDescription:
-      "Giclée prints on heavyweight stock, individually numbered and packaged with certificate of authenticity.",
-    basePrice: 128,
-    sizeGroup: "collectibles",
-    tags: ["art", "print", "limited"],
-    materials: ["Giclée Paper", "Archival Inks"],
-    featurePhrases: [
-      "hand-numbered",
-      "debossed seal",
-      "certificate of authenticity"
-    ],
-    imageSlug: "program-art-print",
-    skuPrefix: "COL04",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Cream", "Victory Gold"]
-  },
-  {
-    categoryId: "collectibles",
-    baseName: "Bowden Legacy Coin",
-    shortDescription: "Collectible coin honouring Coach Bowden.",
-    detailedDescription:
-      "Antique brass coin with etched details and presentation box commemorating a coaching legend.",
-    basePrice: 88,
-    sizeGroup: "collectibles",
-    tags: ["coin", "legacy", "premium"],
-    materials: ["Antique Brass", "Velvet Box"],
-    featurePhrases: [
-      "etched profile",
-      "velvet display box",
-      "numbered series"
-    ],
-    imageSlug: "bowden-legacy-coin",
-    skuPrefix: "COL05",
-    variationCount: 8,
-    colorFamilies: ["Matte Gold", "Garnet", "Seminole Tan"]
-  },
-  {
-    categoryId: "collectibles",
-    baseName: "Championship Banner Set",
-    shortDescription: "Set of felt banners recognising title seasons.",
-    detailedDescription:
-      "Wool felt banners with embroidered details celebrate the program's biggest wins across decades.",
     basePrice: 96,
     sizeGroup: "collectibles",
     tags: ["banner", "felt", "display"],
     materials: ["Wool Felt", "Embroidery"],
-    featurePhrases: [
-      "embroidered details",
-      "heirloom craftsmanship",
-      "custom display rods"
-    ],
+    featurePhrases: ["embroidered text", "felt body", "hanging tabs"],
     imageSlug: "championship-banner",
-    skuPrefix: "COL06",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Victory Gold", "Cream"]
+    skuPrefix: "COL02",
+    variations: 14
+  },
+  {
+    categoryId: "collectibles",
+    baseName: "Turf Display",
+    synopsis: "Framed slice of game-used turf with engraved plaque.",
+    detailPhrases: [
+      "UV acrylic shields the piece from fading",
+      "etched brass plate details the opponent",
+      "hardwood frame slots into trophy walls"
+    ],
+    basePrice: 288,
+    sizeGroup: "collectibles",
+    tags: ["turf", "display", "premium"],
+    materials: ["Hardwood", "UV Acrylic"],
+    featurePhrases: ["etched plaque", "UV guard", "display stand"],
+    imageSlug: "turf-display",
+    skuPrefix: "COL03",
+    variations: 14
   },
   {
     categoryId: "youth",
     baseName: "Future Nole Tee",
-    shortDescription: "Soft youth tee celebrating future Seminoles.",
-    detailedDescription:
-      "Kid-friendly graphics and ultra-soft fabrics celebrate the next generation of Garnet & Gold legends.",
+    synopsis: "Soft youth tee for the next generation.",
+    detailPhrases: [
+      "tagless neck stops itch",
+      "soft-hand ink stays bright",
+      "youth cut keeps it playful"
+    ],
     basePrice: 22,
     sizeGroup: "youth_apparel",
     tags: ["youth", "tee", "soft"],
-    materials: ["Cotton Blend", "Soft Hand Ink"],
-    featurePhrases: [
-      "tagless neck",
-      "taped shoulders",
-      "youth-specific fit"
-    ],
+    materials: ["Cotton Blend", "Soft Ink"],
+    featurePhrases: ["tagless neck", "soft ink", "youth fit"],
     imageSlug: "future-nole-tee",
     skuPrefix: "YTH01",
-    variationCount: 10,
-    colorFamilies: ["Garnet", "Victory Gold", "White"]
-  },
-  {
-    categoryId: "youth",
-    baseName: "Mini Cheer Set",
-    shortDescription: "Two-piece cheer set for spirited gamedays.",
-    detailedDescription:
-      "Pleated skirt and sleeveless top with glitter accents deliver cheer squad magic for the youngest fans.",
-    basePrice: 48,
-    sizeGroup: "youth_apparel",
-    tags: ["youth", "cheer", "set"],
-    materials: ["Poly Stretch", "Glitter Appliqué"],
-    featurePhrases: [
-      "glitter detailing",
-      "elastic waistband",
-      "lined bodice"
-    ],
-    imageSlug: "mini-cheer-set",
-    skuPrefix: "YTH02",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Victory Gold", "White"]
+    variations: 12
   },
   {
     categoryId: "youth",
     baseName: "Youth Zip Hoodie",
-    shortDescription: "Cozy zip hoodie sized for younger fans.",
-    detailedDescription:
-      "Brushed interior, split kangaroo pocket, and tonal graphics scale down essential Seminole style.",
-    basePrice: 46,
+    synopsis: "Cozy zip hoodie scaled for younger fans.",
+    detailPhrases: [
+      "split kangaroo pocket warms hands",
+      "rib cuffs stay put on the playground",
+      "lined hood feels plush"
+    ],
+    basePrice: 44,
     sizeGroup: "youth_apparel",
     tags: ["youth", "hoodie", "fleece"],
-    materials: ["Brushed Fleece", "Poly Cotton Blend"],
-    featurePhrases: [
-      "split kangaroo pocket",
-      "lined hood",
-      "soft brushed interior"
-    ],
+    materials: ["Brushed Fleece", "Poly Cotton"],
+    featurePhrases: ["split pocket", "rib cuffs", "lined hood"],
     imageSlug: "youth-zip-hoodie",
-    skuPrefix: "YTH03",
-    variationCount: 8,
-    colorFamilies: ["Garnet", "Charcoal", "White"]
-  },
-  {
-    categoryId: "youth",
-    baseName: "Junior Varsity Jogger",
-    shortDescription: "Joggers sized for future playmakers.",
-    detailedDescription:
-      "Soft fleece, rib cuffs, and bold leg graphics deliver day-long comfort for young Seminoles on the go.",
-    basePrice: 36,
-    sizeGroup: "youth_apparel",
-    tags: ["youth", "pants", "jogger"],
-    materials: ["Fleece", "Rib Trim"],
-    featurePhrases: [
-      "elastic cuffs",
-      "adjustable waistband",
-      "contrast leg print"
-    ],
-    imageSlug: "junior-varsity-jogger",
-    skuPrefix: "YTH04",
-    variationCount: 6,
-    colorFamilies: ["Garnet", "Victory Gold", "Charcoal"]
+    skuPrefix: "YTH02",
+    variations: 12
   }
 ] as const;
 
@@ -1204,10 +682,10 @@ const colorwaysForTemplate = (template: ProductTemplate): readonly Colorway[] =>
     return DEFAULT_COLORWAYS;
   }
   const palette = template.colorFamilies;
-  const base = DEFAULT_COLORWAYS.filter((way) =>
-    palette.includes(way.primary) || palette.includes(way.secondary)
+  const match = DEFAULT_COLORWAYS.filter(
+    (way) => palette.includes(way.primary) || palette.includes(way.secondary)
   );
-  return base.length > 0 ? base : DEFAULT_COLORWAYS;
+  return match.length > 0 ? match : DEFAULT_COLORWAYS;
 };
 
 const createMulberry32 = (seed: number) => {
@@ -1227,12 +705,12 @@ const pick = <T>(values: readonly T[], rng: () => number): T => {
 };
 
 const shuffle = <T>(input: readonly T[], rng: () => number): T[] => {
-  const cloned = [...input];
-  for (let i = cloned.length - 1; i > 0; i -= 1) {
+  const result = [...input];
+  for (let i = result.length - 1; i > 0; i -= 1) {
     const j = Math.floor(rng() * (i + 1));
-    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+    [result[i], result[j]] = [result[j], result[i]];
   }
-  return cloned;
+  return result;
 };
 
 const slugify = (value: string): string =>
@@ -1304,28 +782,20 @@ export const generateCatalogSnapshot = ({
   sizeOptions = SIZE_OPTIONS
 }: GenerateCatalogOptions): CatalogSnapshot => {
   const rng = createMulberry32(seed);
+  const sizeOptionsByGroup = groupSizeOptions(sizeOptions);
   const items: MerchItem[] = [];
   const randomizedStoryTags = shuffle(STORY_TAGS, rng);
-  const sizeOptionsByGroup = groupSizeOptions(sizeOptions);
-
   const baseTimestamp = Date.UTC(2023, 6, 1);
 
   PRODUCT_TEMPLATES.forEach((template, templateIndex) => {
     const colorways = colorwaysForTemplate(template);
-    const materialPool = template.materials;
-    const features = template.featurePhrases;
-
-    for (let variant = 0; variant < template.variationCount; variant += 1) {
+    for (let variant = 0; variant < template.variations; variant += 1) {
       const colorway = pick(colorways, rng);
       const adjective = pick(ADJECTIVES, rng);
       const motif = pick(MOTIFS, rng);
-      const feature = pick(features, rng);
+      const feature = pick(template.featurePhrases, rng);
       const auxiliaryFeature = pick(DEFAULT_FEATURES, rng);
-      const materials = unique([
-        pick(materialPool, rng),
-        pick(materialPool, rng),
-        pick(["Organic Cotton", "Recycled Fibers", "Performance Mesh"], rng)
-      ]);
+      const details = shuffle(template.detailPhrases, rng).slice(0, 2);
 
       const fullName = `${adjective} ${template.baseName}`;
       const colorDescriptor = `${colorway.primary}/${colorway.secondary}`;
@@ -1333,18 +803,18 @@ export const generateCatalogSnapshot = ({
       const slug = `${slugify(`${fullName}-${motif}-${colorDescriptor}`)}-${variant + 1}`;
       const id = `merch-${String(items.length + 1).padStart(4, "0")}`;
 
-      const basePrice = template.basePrice + (rng() - 0.5) * 14;
-      const listPrice = roundCurrency(Math.max(12, basePrice));
+      const basePrice = template.basePrice + (rng() - 0.5) * 12;
+      const listPrice = roundCurrency(Math.max(10, basePrice));
       const onSale = rng() > 0.72;
       const salePrice = onSale
-        ? roundCurrency(listPrice * (0.8 + rng() * 0.12))
+        ? roundCurrency(listPrice * (0.82 + rng() * 0.1))
         : undefined;
       const memberPrice = salePrice
         ? roundCurrency(Math.max(5, salePrice * (0.9 - rng() * 0.08)))
         : rng() > 0.82
         ? roundCurrency(Math.max(5, listPrice * (0.94 - rng() * 0.06)))
         : undefined;
-      const loyaltyPoints = Math.round(listPrice * (1.6 + rng() * 0.6));
+      const loyaltyPoints = Math.round(listPrice * (1.5 + rng() * 0.7));
       const priceTier = computePriceTier(listPrice);
       const discountPercent = salePrice
         ? roundCurrency(100 - (salePrice / listPrice) * 100)
@@ -1370,21 +840,16 @@ export const generateCatalogSnapshot = ({
       const availableSizes = sizeOptionsByGroup.get(template.sizeGroup) ?? [];
       const availableSizeIds = availableSizes.map((option) => option.id);
 
-      const quantity = Math.max(4, Math.round(24 + rng() * 220));
+      const quantity = Math.max(4, Math.round(26 + rng() * 190));
       const isLimited = price.priceTier === "Limited" || rng() > 0.9;
       const status = quantity < 12 ? "preorder" : quantity < 32 ? "low_stock" : "in_stock";
       const restockDate =
         status === "preorder"
           ? new Date(baseTimestamp + Math.floor(rng() * 120) * 86_400_000).toISOString()
           : undefined;
-      const inventory = {
-        quantity,
-        status,
-        restockDate
-      } as const;
 
-      const ratingAverage = roundCurrency(4.1 + rng() * 0.8);
-      const ratingCount = Math.round(32 + rng() * 350);
+      const ratingAverage = roundCurrency(4 + rng() * 1);
+      const ratingCount = Math.round(28 + rng() * 340);
       const releaseSeason = pick(RELEASE_SEASONS, rng);
       const introducedAt = new Date(
         baseTimestamp + Math.floor(rng() * 520) * 86_400_000
@@ -1395,16 +860,20 @@ export const generateCatalogSnapshot = ({
       const alt2 = buildImageAsset(template, variant, "detail", { width: 1200, height: 1200 }, colorway.accent);
       const gallery: ImageAsset[] = [primaryImage, alt1, alt2];
 
+      const materials = unique([
+        ...template.materials,
+        pick(MATERIAL_FALLBACKS, rng)
+      ]);
+
       const tags = unique([
         ...template.tags,
         motif,
         colorway.primary,
         colorway.secondary,
-        colorway.accent,
-        feature.replace(/[^a-z]+/gi, " ").trim(),
-        auxiliaryFeature.replace(/[^a-z]+/gi, " ").trim(),
+        feature,
+        auxiliaryFeature,
         randomizedStoryTags[(templateIndex + variant) % randomizedStoryTags.length]
-      ]).filter((tag): tag is string => Boolean(tag));
+      ]);
 
       const flags = unique([
         price.isOnSale ? "On Sale" : undefined,
@@ -1414,8 +883,8 @@ export const generateCatalogSnapshot = ({
         releaseSeason === "Fall 2024" ? "Fall Feature" : undefined
       ]).filter((flag): flag is string => Boolean(flag));
 
-      const shortDescription = `${template.shortDescription} Featuring ${motif} art and ${feature}.`;
-      const description = `${template.detailedDescription} Finished with ${feature} and ${auxiliaryFeature} for true Garnet & Gold spirit.`;
+      const shortDescription = template.synopsis;
+      const description = `${template.synopsis} ${details[0]}. ${details[1]} ${pick(DETAIL_CONNECTORS, rng)} featuring ${feature} and ${auxiliaryFeature}.`;
 
       const item: MerchItem = {
         id,
@@ -1426,7 +895,9 @@ export const generateCatalogSnapshot = ({
         description,
         categoryId: template.categoryId,
         tags,
-        colors: unique([colorway.primary, colorway.secondary, colorway.accent]).filter((color): color is string => Boolean(color)),
+        colors: unique([colorway.primary, colorway.secondary, colorway.accent]).filter(
+          (color): color is string => Boolean(color)
+        ),
         materials,
         sizeGroup: template.sizeGroup,
         availableSizeIds,
@@ -1435,7 +906,11 @@ export const generateCatalogSnapshot = ({
         gallery,
         rating: { average: ratingAverage, count: ratingCount },
         releaseSeason,
-        inventory,
+        inventory: {
+          quantity,
+          status,
+          restockDate
+        },
         flags,
         isLimited,
         introducedAt
