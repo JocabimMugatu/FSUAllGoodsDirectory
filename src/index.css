@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --muted: 36 26% 92%;
+    --muted-foreground: 26 15% 46%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --border: 24 17% 88%;
+    --input: 24 17% 88%;
+    --primary: var(--fsu-garnet);
+    --primary-foreground: var(--fsu-garnet-foreground);
+    --secondary: var(--fsu-gold);
+    --secondary-foreground: var(--fsu-gold-foreground);
+    --accent: 36 24% 92%;
+    --accent-foreground: 20 30% 30%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: var(--fsu-garnet);
+    --radius: 0.75rem;
+
+    --fsu-garnet: 346 44% 33%;
+    --fsu-garnet-foreground: 36 44% 96%;
+    --fsu-gold: 41 42% 67%;
+    --fsu-gold-foreground: 36 53% 23%;
+    --fsu-sand: 42 33% 88%;
+    --fsu-smoke: 40 10% 60%;
+    --fsu-spear: 0 0% 14%;
+  }
+
+  .dark {
+    --background: 234 19% 16%;
+    --foreground: 210 40% 96%;
+    --muted: 222 17% 28%;
+    --muted-foreground: 216 20% 80%;
+    --popover: 234 19% 16%;
+    --popover-foreground: 210 40% 96%;
+    --card: 234 19% 16%;
+    --card-foreground: 210 40% 96%;
+    --border: 222 17% 28%;
+    --input: 222 17% 28%;
+    --primary: var(--fsu-gold);
+    --primary-foreground: var(--fsu-gold-foreground);
+    --secondary: var(--fsu-garnet);
+    --secondary-foreground: var(--fsu-garnet-foreground);
+    --accent: 222 17% 28%;
+    --accent-foreground: 210 40% 96%;
+    --destructive: 0 72% 66%;
+    --destructive-foreground: 0 0% 96%;
+    --ring: var(--fsu-gold);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+}
