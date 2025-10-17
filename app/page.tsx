@@ -3,31 +3,43 @@
 import { useMemo } from "react";
 import { PackageSearch } from "lucide-react";
 
+import { CatalogControls } from "@/components/catalog/catalog-controls";
 import { CatalogGrid } from "@/components/catalog/catalog-grid";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCatalogData } from "@/providers/catalog-data-provider";
 import { formatCurrency } from "@/lib/utils";
+import { useCatalogData } from "@/providers/catalog-data-provider";
 
 export default function Page() {
-  const { items, isLoading, isEmpty, categories, averagePrice } = useCatalogData();
+  const { items, totalItems, isLoading, isEmpty, averagePrice } = useCatalogData();
 
-  const categoryBadges = useMemo(
-    () =>
-      [...categories].sort().map((category) => (
-        <Badge key={category} variant="outline" className="capitalize">
-          {category}
-        </Badge>
-      )),
-    [categories]
-  );
+  const formattedAveragePrice = useMemo(() => {
+    if (items.length === 0) {
+      return "—";
+    }
 
-  const formattedAveragePrice = useMemo(() => formatCurrency(Math.round(averagePrice)), [averagePrice]);
+    return formatCurrency(Math.round(averagePrice));
+  }, [averagePrice, items.length]);
+
+  const itemSummary = useMemo(() => {
+    if (isLoading) {
+      return "";
+    }
+
+    if (totalItems === 0) {
+      return "No products available";
+    }
+
+    if (items.length === totalItems) {
+      return `${totalItems} products available`;
+    }
+
+    return `Showing ${items.length} of ${totalItems} products`;
+  }, [isLoading, items.length, totalItems]);
 
   return (
     <main className="container space-y-10 py-10">
-      <header className="space-y-4">
+      <header className="space-y-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Product catalog</h1>
@@ -44,19 +56,11 @@ export default function Page() {
             )}
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {isLoading ? (
-            Array.from({ length: 6 }, (_, index) => (
-              <Skeleton key={`category-skeleton-${index}`} className="h-6 w-20 rounded-full" />
-            ))
-          ) : categoryBadges.length > 0 ? (
-            categoryBadges
-          ) : (
-            <Badge variant="outline">No categories</Badge>
-          )}
-        </div>
+
+        <CatalogControls />
+
         <div className="text-sm text-muted-foreground">
-          {isLoading ? <Skeleton className="h-4 w-32" /> : `${items.length} products available`}
+          {isLoading ? <Skeleton className="h-4 w-36" /> : itemSummary}
         </div>
       </header>
 
