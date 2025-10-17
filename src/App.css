@@ -1,0 +1,26 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  text-align: center;
+  padding: 2rem;
+  background: radial-gradient(circle at top, rgba(239, 68, 68, 0.1), transparent);
+}
+
+.app h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #990000;
+  margin: 0;
+}
+
+.app p {
+  margin: 0;
+  color: #1f2937;
+  max-width: 28rem;
+  line-height: 1.6;
+}
