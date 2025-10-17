@@ -1,0 +1,31 @@
+<svg width="640" height="440" viewBox="0 0 640 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="exp4LargeGradient" x1="40" y1="32" x2="620" y2="408" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6D28D9" />
+      <stop offset="1" stop-color="#DB2777" />
+    </linearGradient>
+    <linearGradient id="exp4LargeWave" x1="120" y1="260" x2="520" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E9D5FF" />
+      <stop offset="1" stop-color="#FBCFE8" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="440" rx="48" fill="url(#exp4LargeGradient)" opacity="0.84" />
+  <rect x="56" y="64" width="528" height="312" rx="36" fill="#FDF4FF" />
+  <path
+    d="M96 324c32-22 60-44 92-44s58 22 92 22 64-16 96-16 60 16 60 16"
+    stroke="url(#exp4LargeWave)"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M152 256c44-14 68-48 104-48s64 28 100 28 64-20 100-20"
+    stroke="#F5D0FE"
+    stroke-width="12"
+    stroke-linecap="round"
+    opacity="0.58"
+  />
+  <circle cx="216" cy="192" r="34" fill="#C084FC" opacity="0.85" />
+  <circle cx="320" cy="216" r="38" fill="#F472B6" opacity="0.72" />
+  <circle cx="428" cy="256" r="34" fill="#FBCFE8" opacity="0.65" />
+</svg>

@@ -1,0 +1,31 @@
+<svg width="320" height="220" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="exp5SmallGradient" x1="32" y1="18" x2="300" y2="204" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0F172A" />
+      <stop offset="1" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="exp5SmallWave" x1="52" y1="140" x2="260" y2="168" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E2E8F0" />
+      <stop offset="1" stop-color="#CBD5F5" />
+    </linearGradient>
+  </defs>
+  <rect width="320" height="220" rx="30" fill="url(#exp5SmallGradient)" opacity="0.86" />
+  <rect x="28" y="32" width="264" height="156" rx="24" fill="#F8FAFC" />
+  <path
+    d="M48 164c28-16 44-30 66-30s40 18 62 18 42-12 62-12 40 12 40 12"
+    stroke="url(#exp5SmallWave)"
+    stroke-width="9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M78 126c24-16 40-40 64-40s38 24 60 24 38-18 60-18"
+    stroke="#CBD5F5"
+    stroke-width="8"
+    stroke-linecap="round"
+    opacity="0.55"
+  />
+  <circle cx="110" cy="86" r="18" fill="#94A3B8" opacity="0.85" />
+  <circle cx="176" cy="104" r="22" fill="#64748B" opacity="0.7" />
+  <circle cx="230" cy="132" r="18" fill="#CBD5F5" opacity="0.6" />
+</svg>
