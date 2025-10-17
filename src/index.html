@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Responsive experience catalogue showcasing polished typography, spacing, accessibility, and optimized assets."
+    />
+    <title>Responsive Experience Catalogue</title>
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="site-header" data-header>
+      <div class="site-header__inner container">
+        <div class="brand" aria-label="Responsive Experience Catalogue">
+          <svg class="brand__mark" viewBox="0 0 64 64" role="presentation" aria-hidden="true">
+            <defs>
+              <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#ec4899" />
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="16" fill="url(#brandGradient)" />
+            <path
+              d="M20 20h24a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6Zm6 8v8l8-4-8-4Z"
+              fill="#fff"
+            />
+          </svg>
+          <div class="brand__label">
+            <span class="brand__title">All Goods Directory</span>
+            <span class="brand__tagline">Polished responsive design</span>
+          </div>
+        </div>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul class="primary-nav__list" role="list">
+            <li><a href="#design-principles">Design principles</a></li>
+            <li><a href="#experience-heading">Experiences</a></li>
+            <li><a href="#accessibility">Accessibility</a></li>
+            <li><a href="#footer">Contact</a></li>
+          </ul>
+        </nav>
+        <button
+          class="theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="Activate dark theme"
+          aria-pressed="false"
+        >
+          <span class="visually-hidden">Toggle color theme</span>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" role="presentation">
+            <path
+              d="M12 5.25a.75.75 0 0 1-.75-.75V3a.75.75 0 0 1 1.5 0v1.5a.75.75 0 0 1-.75.75Zm5.657 2.343a.75.75 0 0 1 0-1.06l1.061-1.06a.75.75 0 1 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.061 0ZM12 18.75a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-7.657-3.093a.75.75 0 0 1 .53 1.28L3.812 18.5a.75.75 0 1 1-1.06-1.06l1.06-1.061a.75.75 0 0 1 .53-.218ZM5.25 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 5.25 12Zm13.5 0a.75.75 0 0 1 .75-.75H21a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm-12.75-4.657a.75.75 0 0 1-1.28-.53l-.006-1.5a.75.75 0 0 1 1.5-.006l.006 1.5a.75.75 0 0 1-.22.536Zm10.243 10.182a.75.75 0 0 1 1.06 0l1.061 1.061a.75.75 0 1 1-1.061 1.06l-1.06-1.06a.75.75 0 0 1 0-1.061ZM12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"
+              fill="currentColor"
+            />
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" role="presentation">
+            <path
+              d="M21 13.062a9 9 0 0 1-11.062-11A9 9 0 1 0 21 13.062Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__inner container">
+          <div class="hero__content">
+            <p class="hero__eyebrow">Experience-first design system</p>
+            <h1 id="hero-title">Crafted for clarity, comfort, and speed</h1>
+            <p class="hero__lead">
+              Responsive breakpoints, typography, and spacing dynamically adjust to every viewport so
+              browsing remains effortless and fast, even when the dataset grows.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="#experience-heading">Explore experiences</a>
+              <a class="button button--ghost" href="#design-principles">Review design principles</a>
+            </div>
+          </div>
+          <div class="hero__media" aria-hidden="true">
+            <picture>
+              <source srcset="./assets/hero-illustration-desktop.svg" media="(min-width: 62rem)" />
+              <img
+                src="./assets/hero-illustration-mobile.svg"
+                alt="Abstract responsive layouts"
+                width="480"
+                height="360"
+                decoding="async"
+              />
+            </picture>
+          </div>
+        </div>
+      </section>
+
+      <section id="design-principles" class="design-principles" aria-labelledby="principles-heading">
+        <div class="design-principles__inner container">
+          <h2 id="principles-heading">Design principles</h2>
+          <div class="principle-grid">
+            <article class="principle">
+              <h3>Responsive foundations</h3>
+              <p>
+                Fluid spacing, line lengths, and type scales applied with CSS clamps create natural rhythm
+                from 320px to 1440px and beyond.
+              </p>
+            </article>
+            <article class="principle">
+              <h3>Accessible defaults</h3>
+              <p>
+                Semantic HTML, visible focus indicators, and theme-aware contrast make the catalogue usable
+                for keyboard and assistive technologies.
+              </p>
+            </article>
+            <article class="principle">
+              <h3>Performance aware</h3>
+              <p>
+                Lazy-loaded imagery, lightweight assets, and chunked rendering guarantee smooth interaction
+                with large volumes of data.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="experience-section" aria-labelledby="experience-heading">
+        <div class="experience-section__header container">
+          <div>
+            <p class="section-eyebrow">Curated catalogue</p>
+            <h2 id="experience-heading">Hand-picked experiences</h2>
+          </div>
+          <p class="section-description">
+            Scroll to explore <span data-experience-count>200+</span> experiences rendered progressively. Cards include
+            responsive imagery, accessible controls, and delightful hover states.
+          </p>
+        </div>
+        <div class="experience-grid" data-experience-grid role="list"></div>
+        <div class="observer-sentinel" data-load-sentinel aria-hidden="true"></div>
+      </section>
+
+      <section id="accessibility" class="accessibility" aria-labelledby="accessibility-heading">
+        <div class="accessibility__inner container">
+          <h2 id="accessibility-heading">Accessibility enhancements</h2>
+          <ul class="accessibility__list" role="list">
+            <li>
+              Keyboard-friendly navigation with visible focus rings and logical tab order across all
+              interactive elements.
+            </li>
+            <li>
+              Reduced motion preference respected by disabling transitions for users who opt out of
+              animation.
+            </li>
+            <li>
+              Theme toggle communicates state with <code>aria-pressed</code> and preserves preferences between
+              visits.
+            </li>
+            <li>
+              Semantic regions, headings, and skip navigation support screen-reader comprehension.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer" class="site-footer">
+      <div class="site-footer__inner container">
+        <div class="site-footer__brand">
+          <span class="site-footer__title">All Goods Directory</span>
+          <p class="site-footer__summary">
+            Demonstrating thoughtful responsive polish, accessibility-first interactions, and optimized asset
+            delivery.
+          </p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <ul role="list">
+            <li><a href="#hero-title">Back to top</a></li>
+            <li><a href="#experience-heading">Browse experiences</a></li>
+            <li><a href="mailto:design@allgoods.example">design@allgoods.example</a></li>
+          </ul>
+        </nav>
+        <p class="site-footer__note">Built with love for every breakpoint.</p>
+      </div>
+    </footer>
+    <script type="module" src="./scripts/main.js"></script>
+  </body>
+</html>

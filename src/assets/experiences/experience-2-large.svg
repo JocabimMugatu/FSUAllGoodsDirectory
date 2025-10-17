@@ -1,0 +1,31 @@
+<svg width="640" height="440" viewBox="0 0 640 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="exp2LargeGradient" x1="0" y1="20" x2="640" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EA580C" />
+      <stop offset="1" stop-color="#F59E0B" />
+    </linearGradient>
+    <linearGradient id="exp2LargeTrail" x1="120" y1="240" x2="520" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FED7AA" />
+      <stop offset="1" stop-color="#FEF08A" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="440" rx="44" fill="url(#exp2LargeGradient)" opacity="0.8" />
+  <rect x="48" y="56" width="544" height="328" rx="36" fill="#FFFBEB" />
+  <path
+    d="M96 328c36-24 72-48 112-48s66 28 106 28 76-20 116-20 70 20 70 20"
+    stroke="url(#exp2LargeTrail)"
+    stroke-width="14"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M160 224c44 0 54-56 92-56s52 36 92 36 52-24 92-24"
+    stroke="#FDBA74"
+    stroke-width="12"
+    stroke-linecap="round"
+    opacity="0.55"
+  />
+  <circle cx="208" cy="168" r="32" fill="#FDBA74" opacity="0.85" />
+  <circle cx="320" cy="176" r="26" fill="#FBBF24" opacity="0.72" />
+  <circle cx="404" cy="220" r="36" fill="#FEF3C7" opacity="0.8" />
+</svg>

@@ -1,0 +1,24 @@
+<svg width="640" height="440" viewBox="0 0 640 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="exp1LargeGradient" x1="0" y1="0" x2="640" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0369A1" />
+      <stop offset="1" stop-color="#4C1D95" />
+    </linearGradient>
+    <linearGradient id="exp1LargeTrail" x1="80" y1="240" x2="560" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#BAE6FD" />
+      <stop offset="1" stop-color="#DDD6FE" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="440" rx="44" fill="url(#exp1LargeGradient)" opacity="0.82" />
+  <rect x="48" y="56" width="544" height="328" rx="36" fill="#F8FAFC" />
+  <path
+    d="M120 312c64-40 96-76 140-76s76 60 116 60 76-24 116-24 72 24 72 24"
+    stroke="url(#exp1LargeTrail)"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="208" cy="208" r="44" fill="#38BDF8" opacity="0.85" />
+  <circle cx="320" cy="184" r="32" fill="#22D3EE" opacity="0.65" />
+  <circle cx="420" cy="224" r="38" fill="#818CF8" opacity="0.55" />
+</svg>

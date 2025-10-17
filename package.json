@@ -1,0 +1,20 @@
+{
+  "name": "responsive-ux-showcase",
+  "version": "1.0.0",
+  "description": "Responsive, accessible UI with optimized assets and documentation.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node scripts/performance-test.js"
+  },
+  "keywords": [
+    "responsive-design",
+    "accessibility",
+    "theme-toggle"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.25.11"
+  }
+}

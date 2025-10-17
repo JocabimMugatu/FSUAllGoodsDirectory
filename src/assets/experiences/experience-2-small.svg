@@ -1,0 +1,31 @@
+<svg width="320" height="220" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="exp2SmallGradient" x1="0" y1="0" x2="320" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F97316" />
+      <stop offset="1" stop-color="#F59E0B" />
+    </linearGradient>
+    <linearGradient id="exp2SmallTrail" x1="60" y1="120" x2="260" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFE4E6" />
+      <stop offset="1" stop-color="#FDE68A" />
+    </linearGradient>
+  </defs>
+  <rect width="320" height="220" rx="28" fill="url(#exp2SmallGradient)" opacity="0.78" />
+  <rect x="24" y="28" width="272" height="164" rx="24" fill="#FFFBEB" />
+  <path
+    d="M52 172c18-12 36-24 58-24s36 14 60 14 40-10 60-10 34 10 34 10"
+    stroke="url(#exp2SmallTrail)"
+    stroke-width="9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M80 120c24 0 30-32 52-32s28 24 52 24 28-16 52-16"
+    stroke="#FECACA"
+    stroke-width="8"
+    stroke-linecap="round"
+    opacity="0.6"
+  />
+  <circle cx="112" cy="84" r="18" fill="#FDBA74" opacity="0.88" />
+  <circle cx="184" cy="92" r="14" fill="#FBBF24" opacity="0.7" />
+  <circle cx="228" cy="126" r="20" fill="#FDE68A" opacity="0.8" />
+</svg>
