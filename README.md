@@ -14,7 +14,7 @@ The development server will be available at http://localhost:5173.
 ## Available Scripts
 
 - `npm run dev` – Start the Vite development server.
-- `npm run build` – Type-check and create an optimized production build.
+- `npm run build` – Type-check, create an optimized production build, and verify that hashed bundles were emitted.
 - `npm run preview` – Preview the production build locally.
 - `npm run lint` – Run ESLint on the project.
 

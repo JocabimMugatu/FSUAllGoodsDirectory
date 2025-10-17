@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build --emptyOutDir",
+    "postbuild": "node ./scripts/verify-dist.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
