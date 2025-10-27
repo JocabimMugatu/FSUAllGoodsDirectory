@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 33 45% 97%;
+    --foreground: 24 35% 22%;
+    --card: 0 0% 100%;
+    --card-foreground: 24 35% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 35% 22%;
+    --primary: 348 45% 33%;
+    --primary-foreground: 45 100% 97%;
+    --secondary: 37 41% 69%;
+    --secondary-foreground: 24 35% 22%;
+    --muted: 32 42% 91%;
+    --muted-foreground: 24 18% 35%;
+    --accent: 32 42% 91%;
+    --accent-foreground: 24 35% 22%;
+    --destructive: 2 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 27 34% 85%;
+    --input: 27 34% 85%;
+    --ring: 37 41% 69%;
+    --radius: 0.9rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(120% 120% at 50% 0%, rgba(206, 184, 136, 0.18) 0%, rgba(255, 255, 255, 0) 65%),
+      radial-gradient(75% 90% at 100% 0%, rgba(120, 47, 64, 0.12) 0%, rgba(255, 255, 255, 0) 75%),
+      linear-gradient(180deg, #fff 0%, #f8f5f2 100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-tight text-garnet;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}
