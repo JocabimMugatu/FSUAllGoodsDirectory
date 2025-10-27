@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card"
 import { items } from "@/data/items"
 import { formatCurrency, formatDate } from "@/lib/utils"
-import type { Item } from "@/types/item"
 
 const COLOR_SWATCHES: Record<string, string> = {
   Garnet: "#782F40",
